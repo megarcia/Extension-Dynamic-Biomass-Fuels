@@ -152,15 +152,19 @@ namespace Landis.Extension.DynamicFuels
 
         //---------------------------------------------------------------------
 
-        private int CalcFuelType(Site site,
-                                        IEnumerable<IFuelType> FuelTypes,
-                                        IEnumerable<IDisturbanceType> DisturbanceTypes)
+        //MG private int CalcFuelType(Site site,
+        //MG                          IEnumerable<IFuelType> FuelTypes,
+        //MG                          IEnumerable<IDisturbanceType> DisturbanceTypes)
+        private int CalcFuelType(ActiveSite site,
+                                 IEnumerable<IFuelType> FuelTypes,
+                                 IEnumerable<IDisturbanceType> DisturbanceTypes)
         {
 
             double[] forTypValue = new double[100];  //Maximum of 100 fuel types
             double sumConifer = 0.0;
             double sumDecid = 0.0;
-            IEcoregion ecoregion = modelCore.Ecoregion[(ActiveSite) site];
+            //MG IEcoregion ecoregion = modelCore.Ecoregion[(ActiveSite) site];
+            IEcoregion ecoregion = modelCore.Ecoregion[site];
 
             foreach(ISpecies species in modelCore.Species)
             {
