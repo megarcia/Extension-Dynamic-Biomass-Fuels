@@ -168,7 +168,10 @@ namespace Landis.Extension.DynamicFuels
                 ISpeciesCohorts speciesCohorts = SiteVars.Cohorts[site][species];
 
                 if(speciesCohorts == null)
+                {
+                    modelCore.UI.WriteLine("found a null cohort");
                     continue;
+                }
 
                 foreach(IFuelType ftype in FuelTypes)
                 {
@@ -183,7 +186,7 @@ namespace Landis.Extension.DynamicFuels
                                 if(cohort.Data.Age >= ftype.MinAge && cohort.Data.Age <= ftype.MaxAge)
                                     sppValue += cohort.Data.Biomass;
 
-                            //modelCore.UI.WriteLine("sppVaue={0}, spp={1}, cohortB={2}.", sppValue, cohort.Species.Name, cohort.Biomass);
+                            modelCore.UI.WriteLine("sppName={0}, cohortAge={1}, cohortBiomass={2}, sppValue={3}", cohort.Species.Name, cohort.Data.Age, cohort.Data.Biomass, sppValue);
 
                             if(ftype[species.Index] == -1)
                                 forTypValue[ftype.Index] -= sppValue;
