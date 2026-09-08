@@ -183,10 +183,11 @@ namespace Landis.Extension.DynamicFuels
                             int sppValue = 0;
 
                             foreach(ICohort cohort in speciesCohorts)
+                            {
                                 if(cohort.Data.Age >= ftype.MinAge && cohort.Data.Age <= ftype.MaxAge)
                                     sppValue += cohort.Data.Biomass;
-
-                            modelCore.UI.WriteLine("sppName={0}, cohortAge={1}, cohortBiomass={2}, sppValue={3}", cohort.Species.Name, cohort.Data.Age, cohort.Data.Biomass, sppValue);
+                                modelCore.UI.WriteLine("sppName={0}, cohortAge={1}, cohortBiomass={2}, sppValue={3}", cohort.Species.Name, cohort.Data.Age, cohort.Data.Biomass, sppValue);
+                            }
 
                             if(ftype[species.Index] == -1)
                                 forTypValue[ftype.Index] -= sppValue;
