@@ -19,11 +19,11 @@ namespace Landis.Extension.DynamicFuels
         public static void Initialize()
         {
             Cohorts = PlugIn.ModelCore.GetSiteVar<SiteCohorts>("Succession.UniversalCohorts");
-            //if (Cohorts == null)
-            //{
-            //    string mesg = string.Format("Cohorts are empty.  Please double-check that this extension is compatible with your chosen succession extension.");
-            //    throw new System.ApplicationException(mesg);
-            //}
+            if (Cohorts == null)
+            {
+                string mesg = string.Format("Cohorts are empty.  Please double-check that this extension is compatible with your chosen succession extension.");
+                throw new System.ApplicationException(mesg);
+            }
 
             FuelType     = PlugIn.ModelCore.Landscape.NewSiteVar<int>();
             DecidFuelType   = PlugIn.ModelCore.Landscape.NewSiteVar<int>();
