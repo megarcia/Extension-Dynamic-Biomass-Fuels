@@ -20,7 +20,7 @@ namespace Landis.Extension.DynamicFuels
         public static void Initialize()
         {
             //MG20260910 Cohorts = PlugIn.ModelCore.GetSiteVar<SiteCohorts>("Succession.UniversalCohorts");
-            Cohorts = PlugIn.ModelCore.GetSiteVar<PnETCohorts.SiteCohorts>("Succession.CohortsPnET");  //MG20260910 
+            Cohorts = PlugIn.ModelCore.GetSiteVar<Landis.Library.PnETCohorts.SiteCohorts>("Succession.CohortsPnET");  //MG20260910 
             if (Cohorts == null)
             {
                 string mesg = string.Format("Cohorts are empty. Please double-check that this extension is compatible with your chosen succession extension.");
@@ -94,7 +94,7 @@ namespace Landis.Extension.DynamicFuels
         //---------------------------------------------------------------------
 
         //MG20260910 public static ISiteVar<SiteCohorts> Cohorts
-        public static ISiteVar<PnETCohorts.SiteCohorts> Cohorts  //MG20260910
+        public static ISiteVar<Landis.Library.PnETCohorts.SiteCohorts> Cohorts  //MG20260910
         { get; private set; }
     }
 }
