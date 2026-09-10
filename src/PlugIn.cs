@@ -166,7 +166,8 @@ namespace Landis.Extension.DynamicFuels
             foreach(ISpecies species in modelCore.Species)
             {
 
-                ISpeciesCohorts speciesCohorts = SiteVars.Cohorts[site][species];
+                //MG20260910 ISpeciesCohorts speciesCohorts = SiteVars.Cohorts[site][species];
+                ISpeciesCohorts speciesCohorts = (ISpeciesCohorts)SiteVars.Cohorts[site][species];  //MG20260910
 
                 if(speciesCohorts == null)
                 {
@@ -462,7 +463,8 @@ namespace Landis.Extension.DynamicFuels
             foreach (ISpecies species in modelCore.Species)
             {
 
-                ISpeciesCohorts speciesCohorts = SiteVars.Cohorts[site][species];
+                //MG20260910 ISpeciesCohorts speciesCohorts = SiteVars.Cohorts[site][species];
+                ISpeciesCohorts speciesCohorts = (ISpeciesCohorts)SiteVars.Cohorts[site][species];  //MG20260910 
                 if (speciesCohorts == null)
                     continue;
                 foreach (ICohort cohort in speciesCohorts)
