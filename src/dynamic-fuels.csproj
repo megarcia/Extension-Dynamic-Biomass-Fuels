@@ -33,6 +33,9 @@
     <Reference Include="Landis.Library.Metadata-v2">
       <HintPath>lib\Landis.Library.Metadata-v2.dll</HintPath>
     </Reference>
+    <Reference Include="Landis.Library.PnETCohorts-v2">
+      <HintPath>lib\Landis.Library.PnETCohorts-v2.dll</HintPath>
+    </Reference>
     <Reference Include="Landis.Library.UniversalCohorts-v2">
       <HintPath>lib\Landis.Library.UniversalCohorts-v2.dll</HintPath>
     </Reference>
