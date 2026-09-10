@@ -186,9 +186,14 @@ namespace Landis.Extension.DynamicFuels
 
                             foreach(ICohort cohort in speciesCohorts)
                             {
-                                if(cohort.Data.Age >= ftype.MinAge && cohort.Data.Age <= ftype.MaxAge)
-                                    sppValue += cohort.Data.Biomass;
-                                modelCore.UI.WriteLine("sppName={0}, cohortAge={1}, cohortBiomass={2}, sppValue={3}", cohort.Species.Name, cohort.Data.Age, cohort.Data.Biomass, sppValue);
+                                //MG20260910 if(cohort.Data.Age >= ftype.MinAge && cohort.Data.Age <= ftype.MaxAge)
+                                if(cohort.Data.UniversalData.Age >= ftype.MinAge && cohort.Data.UniversalData.Age <= ftype.MaxAge)  //MG20260910
+                                {
+                                    //MG20250910 sppValue += cohort.Data.UniversalData.Biomass;
+                                    sppValue += cohort.Data.UniversalData.Biomass;  //MG20250910 
+                                }
+                                //MG20250910 modelCore.UI.WriteLine("sppName={0}, cohortAge={1}, cohortBiomass={2}, sppValue={3}", cohort.Species.Name, cohort.Data.Age, cohort.Data.Biomass, sppValue);
+                                modelCore.UI.WriteLine("sppName={0}, cohortAge={1}, cohortBiomass={2}, sppValue={3}", cohort.Species.Name, cohort.Data.UniversalData.Age, cohort.Data.UniversalData.Biomass, sppValue);  //MG20250910 
                             }
 
                             if(ftype[species.Index] == -1)
