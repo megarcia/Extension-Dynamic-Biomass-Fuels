@@ -1,6 +1,7 @@
 //  Authors:  Robert Scheller, Brian Miranda, Jimm Domingo
 
-using Landis.Library.UniversalCohorts;
+//MG20260910 using Landis.Library.UniversalCohorts;
+using Landis.Library.PnETCohorts;  //MG20260910
 using Landis.SpatialModeling;
 
 using System.Collections.Generic;
@@ -18,14 +19,15 @@ namespace Landis.Extension.DynamicFuels
 
         public static void Initialize()
         {
-            Cohorts = PlugIn.ModelCore.GetSiteVar<SiteCohorts>("Succession.UniversalCohorts");
+            //MG20260910 Cohorts = PlugIn.ModelCore.GetSiteVar<SiteCohorts>("Succession.UniversalCohorts");
+            Cohorts = PlugIn.ModelCore.GetSiteVar<PnETCohorts.SiteCohorts>("Succession.CohortsPnET");  //MG20260910 
             if (Cohorts == null)
             {
-                string mesg = string.Format("Cohorts are empty.  Please double-check that this extension is compatible with your chosen succession extension.");
+                string mesg = string.Format("Cohorts are empty. Please double-check that this extension is compatible with your chosen succession extension.");
                 throw new System.ApplicationException(mesg);
             }
 
-            FuelType     = PlugIn.ModelCore.Landscape.NewSiteVar<int>();
+            FuelType        = PlugIn.ModelCore.Landscape.NewSiteVar<int>();
             DecidFuelType   = PlugIn.ModelCore.Landscape.NewSiteVar<int>();
             PercentConifer  = PlugIn.ModelCore.Landscape.NewSiteVar<int>();
             PercentHardwood = PlugIn.ModelCore.Landscape.NewSiteVar<int>();
@@ -91,7 +93,8 @@ namespace Landis.Extension.DynamicFuels
 
         //---------------------------------------------------------------------
 
-        public static ISiteVar<SiteCohorts> Cohorts
+        //MG20260910 public static ISiteVar<SiteCohorts> Cohorts
+        public static ISiteVar<PnETCohorts.SiteCohorts> Cohorts  //MG20260910
         { get; private set; }
     }
 }
