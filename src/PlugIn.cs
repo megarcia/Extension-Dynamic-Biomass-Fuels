@@ -158,13 +158,17 @@ namespace Landis.Extension.DynamicFuels
             double[] forTypValue = new double[100];  //Maximum of 100 fuel types
             double sumConifer = 0.0;
             double sumDecid = 0.0;
+            int finalFuelType = 0;
             IEcoregion ecoregion = modelCore.Ecoregion[site];
             ISiteCohorts siteCohorts = SiteVars.Cohorts[site];
             if (siteCohorts == null)
             {
-                string mesg = string.Format("siteCohorts are empty!");
-                throw new ApplicationException(mesg);
+                modelCore.UI.WriteLine("   siteCohorts are empty!");
+                return finalFuelType;  // 0
             }
+            else
+                modelCore.UI.WriteLine("   found non-null siteCohorts!");
+            
             foreach (IFuelType ftype in FuelTypes)
             {
                 if (ftype.Ecoregions[ecoregion.Index])
@@ -196,7 +200,6 @@ namespace Landis.Extension.DynamicFuels
             }
 
 
-            int finalFuelType = 0;
             int decidFuelType = 0;
             int coniferFuelType = 0;
             int openFuelType = 0;
