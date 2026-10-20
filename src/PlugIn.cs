@@ -95,7 +95,7 @@ namespace Landis.Extension.DynamicFuels
             SiteVars.DecidFuelType.ActiveSiteValues = 0;
 
             modelCore.UI.WriteLine("  Calculating the Fuel Type Index for all active cells...");
-            foreach (ActiveSite site in modelCore.Landscape)  //ActiveSites
+            foreach (ActiveSite site in modelCore.Landscape)
             {
                 CalcFuelType(site, fuelTypes, disturbanceTypes);
                 SiteVars.PercentDeadFir[site] = CalcPercentDeadFir(site);
@@ -152,39 +152,40 @@ namespace Landis.Extension.DynamicFuels
 
         //---------------------------------------------------------------------
 
-        private int CalcFuelType(Site site,
+        private int CalcFuelType(ActiveSite site,
                                  IEnumerable<IFuelType> FuelTypes,
                                  IEnumerable<IDisturbanceType> DisturbanceTypes)
         {
             double[] forTypValue = new double[100];  //Maximum of 100 fuel types
             double sumConifer = 0.0;
             double sumDecid = 0.0;
-            IEcoregion ecoregion = modelCore.Ecoregion[(ActiveSite)site];
+            IEcoregion ecoregion = modelCore.Ecoregion[site];
+            ISiteCohorts siteCohorts = SiteVars.Cohorts[site];
             foreach (IFuelType ftype in FuelTypes)
             {
                 if (ftype.Ecoregions[ecoregion.Index])
                 {
                     foreach (ISpecies species in modelCore.Species)
                     {
-                        foreach (ISpeciesCohorts speciesCohorts in SiteVars.Cohorts[(ActiveSite)site])
+                        if (ftype[species.Index] != 0)
                         {
-                            if (speciesCohorts == null)
-                                continue;
-                            if (ftype[species.Index] != 0)
+                            foreach (ISpeciesCohorts speciesCohorts in siteCohorts)
                             {
-                                int sppValue = 0;
-                                foreach (ICohort cohort in speciesCohorts)
-                                    if (cohort.Species != species)
-                                        continue;
-                                    else if (cohort.Data.Age >= ftype.MinAge && cohort.Data.Age <= ftype.MaxAge)
-                                        sppValue += cohort.Data.Biomass;
-                                //modelCore.UI.WriteLine("sppVaue={0}, spp={1}, cohortB={2}.", sppValue, cohort.Species.Name, cohort.Biomass);
-                                if (ftype[species.Index] == -1)
-                                    forTypValue[ftype.Index] -= sppValue;
-                                if (ftype[species.Index] == 1)
-                                    forTypValue[ftype.Index] += sppValue;
+                                if (speciesCohorts != null)
+                                {
+                                    int sppValue = 0;
+                                    foreach (ICohort cohort in speciesCohorts)
+                                        if (cohort.Species != species)
+                                            continue;
+                                        else if (cohort.Data.Age >= ftype.MinAge && cohort.Data.Age <= ftype.MaxAge)
+                                            sppValue += cohort.Data.Biomass;
+                                    //modelCore.UI.WriteLine("sppVaue={0}, spp={1}, cohortB={2}.", sppValue, cohort.Species.Name, cohort.Biomass);
+                                    if (ftype[species.Index] == -1)
+                                        forTypValue[ftype.Index] -= sppValue;
+                                    if (ftype[species.Index] == 1)
+                                        forTypValue[ftype.Index] += sppValue;
+                                }
                             }
-
                         }
                     }
                 }
