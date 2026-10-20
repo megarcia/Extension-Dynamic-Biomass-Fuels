@@ -1,15 +1,14 @@
 //  Authors:  Robert Scheller, Brian Miranda, Jimm Domingo
 
+using System;
+using System.Collections.Generic;
 using Landis.Core;
 using Landis.SpatialModeling;
 using Landis.Library.UniversalCohorts;
 
-using System.Collections.Generic;
-
 namespace Landis.Extension.DynamicFuels
 {
-    public class PlugIn
-        : ExtensionMain
+    public class PlugIn : ExtensionMain
     {
         public static readonly ExtensionType extType = new ExtensionType("disturbance:fuels");
         public static readonly string ExtensionName = "Dynamic Fuel System";
@@ -161,6 +160,11 @@ namespace Landis.Extension.DynamicFuels
             double sumDecid = 0.0;
             IEcoregion ecoregion = modelCore.Ecoregion[site];
             ISiteCohorts siteCohorts = SiteVars.Cohorts[site];
+            if (siteCohorts == null)
+            {
+                string mesg = string.Format("siteCohorts are empty!");
+                throw new ApplicationException(mesg);
+            }
             foreach (IFuelType ftype in FuelTypes)
             {
                 if (ftype.Ecoregions[ecoregion.Index])
