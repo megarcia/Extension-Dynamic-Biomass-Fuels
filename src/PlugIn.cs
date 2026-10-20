@@ -153,49 +153,42 @@ namespace Landis.Extension.DynamicFuels
         //---------------------------------------------------------------------
 
         private int CalcFuelType(Site site,
-                                        IEnumerable<IFuelType> FuelTypes,
-                                        IEnumerable<IDisturbanceType> DisturbanceTypes)
+                                 IEnumerable<IFuelType> FuelTypes,
+                                 IEnumerable<IDisturbanceType> DisturbanceTypes)
         {
-
             double[] forTypValue = new double[100];  //Maximum of 100 fuel types
             double sumConifer = 0.0;
             double sumDecid = 0.0;
-            IEcoregion ecoregion = modelCore.Ecoregion[(ActiveSite) site];
-
-            foreach(ISpecies species in modelCore.Species)
+            IEcoregion ecoregion = modelCore.Ecoregion[(ActiveSite)site];
+            foreach (IFuelType ftype in FuelTypes)
             {
-
-                ISpeciesCohorts speciesCohorts = SiteVars.Cohorts[site][species];
-
-                if(speciesCohorts == null)
-                    continue;
-
-                foreach(IFuelType ftype in FuelTypes)
+                if (ftype.Ecoregions[ecoregion.Index])
                 {
-                    if(ftype.Ecoregions[ecoregion.Index])
+                    foreach (ISpecies species in modelCore.Species)
                     {
-
-                        if(ftype[species.Index] != 0)
+                        foreach (ISpeciesCohorts speciesCohorts in SiteVars.Cohorts[site])
                         {
-                            int sppValue = 0;
+                            if (speciesCohorts == null)
+                                continue;
+                            if (ftype[species.Index] != 0)
+                            {
+                                int sppValue = 0;
+                                foreach (ICohort cohort in speciesCohorts)
+                                    if (cohort.Species != species)
+                                        continue;
+                                    else if (cohort.Data.Age >= ftype.MinAge && cohort.Data.Age <= ftype.MaxAge)
+                                        sppValue += cohort.Data.Biomass;
+                                //modelCore.UI.WriteLine("sppVaue={0}, spp={1}, cohortB={2}.", sppValue, cohort.Species.Name, cohort.Biomass);
+                                if (ftype[species.Index] == -1)
+                                    forTypValue[ftype.Index] -= sppValue;
+                                if (ftype[species.Index] == 1)
+                                    forTypValue[ftype.Index] += sppValue;
+                            }
 
-                            foreach(ICohort cohort in speciesCohorts)
-                                if(cohort.Data.Age >= ftype.MinAge && cohort.Data.Age <= ftype.MaxAge)
-                                    sppValue += cohort.Data.Biomass;
-
-                            //modelCore.UI.WriteLine("sppVaue={0}, spp={1}, cohortB={2}.", sppValue, cohort.Species.Name, cohort.Biomass);
-
-                            if(ftype[species.Index] == -1)
-                                forTypValue[ftype.Index] -= sppValue;
-
-                            if(ftype[species.Index] == 1)
-                                forTypValue[ftype.Index] += sppValue;
                         }
                     }
                 }
-
             }
-
 
 
             int finalFuelType = 0;
