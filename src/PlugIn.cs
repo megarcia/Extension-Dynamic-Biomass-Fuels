@@ -149,8 +149,6 @@ namespace Landis.Extension.DynamicFuels
             }
         }
 
-        //---------------------------------------------------------------------
-
         private int CalcFuelType(ActiveSite site,
                                  IEnumerable<IFuelType> FuelTypes,
                                  IEnumerable<IDisturbanceType> DisturbanceTypes)
