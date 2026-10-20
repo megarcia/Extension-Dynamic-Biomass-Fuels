@@ -166,7 +166,7 @@ namespace Landis.Extension.DynamicFuels
                 {
                     foreach (ISpecies species in modelCore.Species)
                     {
-                        foreach (ISpeciesCohorts speciesCohorts in SiteVars.Cohorts[site])
+                        foreach (ISpeciesCohorts speciesCohorts in SiteVars.Cohorts[(ActiveSite)site])
                         {
                             if (speciesCohorts == null)
                                 continue;
